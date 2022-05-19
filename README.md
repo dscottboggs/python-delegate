@@ -32,3 +32,26 @@ except e:
 
 assert raised
 ```
+
+Delegation can also be called multiple times on the same class, and there is an
+optional `prefix` option which allows the attribute name to be prefixed on the
+delegating class:
+
+```python
+from delegate import delegate
+
+class Parent:
+    def __init__(self):
+        self.a = "a"
+        self.b = "b"
+
+@delegate("a", to="parent")
+@delegate("b", to="parent", prefix="_")
+class Child:
+    def __init__(self):
+        self.parent = Parent()
+        self.c = "c"
+
+instance.a
+instance._b
+```
