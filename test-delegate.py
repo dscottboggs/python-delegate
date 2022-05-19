@@ -4,8 +4,10 @@ class Parent:
     def __init__(self):
         self.a = "a"
         self.b = "b"
+        self.d = "d"
 
 @delegate("a", "b", to="parent")
+@delegate("d", to="parent", prefix="_")
 class Child:
     """A class with a delegate"""
     def __init__(self):
@@ -41,5 +43,9 @@ assert instance.__doc__ == "A class with a delegate"
 assert instance.__class__.__name__ == "Child"
 with expect_raises(AttributeError):
     instance.z
+with expect_raises(AttributeError):
+    instance.d
+instance._d
+assert len(Child._delegates) == 3
 
 print("TESTING delegate()...done")
